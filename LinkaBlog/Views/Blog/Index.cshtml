@@ -1,0 +1,96 @@
+﻿@model IndexViewModel
+@{
+	ViewData["Title"] = "Blog";
+}
+<style>
+    .grid-item {
+        align-items: center
+    }
+</style>
+
+<div class="page-title-area bg-1">
+    <div class="container">
+        <div class="page-title-content">
+            <h2>Posts</h2>
+            <div class="search-overlay search-popup align-items-center">
+                <div class='search-box'>
+                    <form class="search-form"asp-controller="Blog" asp-action="Index" method="get">
+                        <input type="hidden" name="pageNumber" value="@Model.PageNumber" />
+                        <input type="hidden" name="category" value="@Model.Category" />
+                        <input class="search-input" name="search" style="width: 600px; height: 40px" placeholder="Search" type="text" value="@Model.Search">
+                        <button class="search-button" type="submit" style="width: 40px; height: 40px"><i class="bx bx-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="product-area ptb-100">
+
+    <div class="container">
+       
+        <!-- End Page Title Area -->
+        <!-- Start Inner Shop Area -->
+        <section class="featured-area one pb-70 ">
+            <div class="container single-product-box ">
+                <section class="featured-area one pb-70">
+                    <div class="container">
+                        <div class="row">
+                            @foreach (var post in Model.Posts)
+                            {
+                                @if (post.IsActive == "Enabled")
+                                {
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="single-featured">
+                                            <a asp-controller="Blog" asp-action="Post" asp-route-id="@post.Id" class="blog-img">
+
+                                                @if (!String.IsNullOrEmpty(@post.Image))
+                                                {
+                                                    var image_path = $"/Image/{@post.Image}";
+
+                                                    <img src="@image_path" alt="Image">
+
+                                                }
+                                                @if (post.Category != "None")
+                                                {
+                                                    <span>@post.Category</span>
+                                                }
+                                            </a>
+                                            <div class="featured-content">
+                                                <ul>
+                                                    <li>
+                                                        <a href="#" class="admin">
+                                                            <i class="bx bx-user"></i>
+                                                            @post.AdminName
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <i class="bx bx-calendar"></i>
+                                                        @String.Format("{0:yyyy/MM/dd/hh:mm}", @post.Created)
+                                                    </li>
+                                                </ul>
+
+                                                <ul>
+                                                    <li>
+                                                        <a asp-controller="Blog" asp-action="Post" asp-route-id="@post.Id" class="read-more d-inline">
+                                                            <h3>@post.Title</h3>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <a asp-controller="Blog" asp-action="Post" asp-route-id="@post.Id" class="read-more">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <partial name="_BlogPagination" model="Model" />
+    </div>
+</section>
+

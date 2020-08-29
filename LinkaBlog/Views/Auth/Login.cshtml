@@ -1,0 +1,87 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+<!-- Start Log In Area -->
+<div class="user-area-all-style log-in-area ptb-100">
+    <div class="container">
+        <div class="contact-form-action">
+            <form method="post" asp-controller="Auth" asp-action="Login">
+                <div class="row">
+                    @*<div class="col-lg-4 col-md-4 col-sm-12">
+            <button class="default-btn" type="submit">
+                Google
+            </button>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <button class="default-btn" type="submit">
+                Facebook
+            </button>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <button class="default-btn" type="submit">
+                Twitter
+            </button>
+        </div>*@
+                    @if (User.IsInRole("Banned"))
+                    {
+                    <div class="col-12">
+                        <div class="form-group">
+                            <p class="account-desc" style="color:darkred">
+                                Your Account Has Been Suspended
+                               
+                            </p>
+                            <p class="account-desc">
+                                Continue as quest
+                                <a asp-controller="Auth" asp-action="LogOut">HOME</a>
+                            </p>
+
+                        </div>
+                    
+                    </div>
+                    }
+                    <div class="col-12">
+                        <div class="form-group">
+                            <input class="form-control" type="text" n asp-for="UserName" placeholder="Username">
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-group">
+                            <input class="form-control" asp-for="Password" type="password" placeholder="Password">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-6 form-condition">
+                        <div class="agree-label">
+                            <input type="checkbox" asp-for="RememberMe">
+                            <label for="chb1">
+                                Remember Me
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-6">
+                        <a class="forget" href="recover-password.html">Forgot my password?</a>
+                    </div>
+
+                    <div class="col-12">
+                        <button class="default-btn btn-two" type="submit" value="Sign In">
+                            Log In Now
+                        </button>
+                    </div>
+
+                    <div class="col-12">
+                        <p class="account-desc">
+                            Not a member?
+                            <a asp-action="Register" asp-controller="Auth">Register</a>
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Log In Area -->

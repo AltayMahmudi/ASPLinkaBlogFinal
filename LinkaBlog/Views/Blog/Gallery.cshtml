@@ -1,0 +1,74 @@
+﻿@model IndexViewModel
+@{
+    ViewData["Title"] = "Gallery";
+}
+<!-- Start Page Title Area -->
+<div class="page-title-area bg-12">
+    <div class="container">
+        <div class="page-title-content">
+            <h2>Gallery</h2>
+            <ul>
+                <li>
+                    <a asp-action="Index" asp-controller="Home">
+                        Home
+                    </a>
+                </li>
+
+                <li>Features</li>
+
+                <li>Gallery</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Page Title Area -->
+<!-- Start Inspiration Area -->
+<section class="inspiration-area ptb-100">
+    <div class="container">
+        <div class="section-title text-center">
+            <h2>Inspiration</h2>
+        </div>
+        <div class="row">
+            @foreach (var post in Model.Posts)
+            {
+                @if (post.IsActive == "Enabled")
+                {
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-inspiration">
+                            <a asp-controller="Blog" asp-action="Post" asp-route-id="@post.Id">
+                                @if (!String.IsNullOrEmpty(@post.Image))
+                                {
+                                    var image_path = $"/Image/{@post.Image}";
+
+                                    <img src="@image_path" alt="Image">
+
+                                }
+                            </a>
+                            <div class="inspiration-content">
+                                <a asp-controller="Blog" asp-action="Post" asp-route-id="@post.Id">
+                                    <h3>@post.Title</h3>
+                                </a>
+
+                                <ul>
+                                    <li>
+                                        <a href="#" class="admin">
+                                            <i class="bx bx-user"></i>
+                                            By   @post.AdminName
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <i class="bx bx-calendar"></i>
+                                        @String.Format("{0:yyyy/MM/dd/hh:mm}", @post.Created)
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+        <partial name="_BlogPagination" model="Model" />
+    </div>
+</section>
+<!-- End Inspiration Area -->
